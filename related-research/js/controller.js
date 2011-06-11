@@ -1,5 +1,5 @@
 
-var mkey = 'e9554d65230e132f69f2c787a16930ff04df39025';
+var mkey = 'ENTER YOUR API KEY HERE';
 
 function prepQ() {
 	

@@ -27,7 +27,7 @@
             "js": [
                 "js/related-research.js",
                 "js/widget.js",
-                "js/contextmenu.js",
+                "js/context-menu.js",
                 "js/background.js"
             ],
             "run_at": "document_end",
