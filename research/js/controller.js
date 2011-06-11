@@ -1,5 +1,5 @@
 
-var mkey = 'ENTER YOUR API KEY HERE';
+var mkey = 'e9554d65230e132f69f2c787a16930ff04df39025';
 
 function prepQ() {
 	
@@ -52,7 +52,7 @@ function displayResponse() {
 		search = localStorage.search;
 		var items = mendeleyResponse.documents;
 		var htmlString = "";
-		htmlString +='<div style="width:360px"><a href="http://www.mendeley.com/research-papers/" target="_blank"><img src="MlogoFSM.png" height="25px" style="margin-left:-8px"/></a>\
+		htmlString +='<div style="width:360px"><a href="http://www.mendeley.com/research-papers/" target="_blank"><img src="../images/MlogoFSM.png" height="25px" style="margin-left:-8px"/></a>\
 			<a id="headerLink" href="#">Share</a> <a id="headerLink" href="#">Save</a></div><div style="clear:both"></div>\
 			<div id="header"><form><input id="searchQ" type="text" value="'+search+'" size="45" /> <input id="staticButton" type="submit" value="Search" onclick="prepQ(); return false;"/></form></div>';
 		
@@ -162,7 +162,7 @@ function displayLoader(bool) {
 		var loadLogo = document.getElementById('loading');
 		if (bool) {
 			document.getElementById(clearDiv).style.display = 'none';
-			loader.innerHTML = '<center><img src="ajax-loader.gif" alt="loading..." /></center>';
+			loader.innerHTML = '<center><img src="../images/ajax-loader.gif" alt="loading..." /></center>';
 		}
 		else {
 			document.getElementById('content').style.display = 'block';
