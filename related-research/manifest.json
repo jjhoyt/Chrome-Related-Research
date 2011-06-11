@@ -25,9 +25,9 @@
         {
             "matches":["http://*/*", "https://*/*"],
             "js": [
-                "js/related-research.js",
+                "js/related_research.js",
                 "js/widget.js",
-                "js/context-menu.js",
+                "js/context_menu.js",
                 "js/background.js"
             ],
             "run_at": "document_end",
