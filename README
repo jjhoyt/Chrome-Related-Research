@@ -9,3 +9,10 @@ You can also highlight any text on the Web page and then click the blue icon to 
 
 == Installation ==
 Currently not for distribution. Developers will need to enter their API key in the controller.js file.
+
+== To do ==
+* Improve lookup algorithm- parsing for better keywords
+* DOI/PMID lookup
+* Saved search
+* Search by right-click
+* Share this (twitter/facebook)
