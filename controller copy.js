@@ -1,4 +1,3 @@
-
 function onPageInfo(o) {
 
   $(document).ready(function(){
@@ -10,7 +9,7 @@ function onPageInfo(o) {
 	//chrome.tabs.getSelected(null,function(tab) { encodeTabTitle(tab.title); });
 
 	var QueryURL = 'http://www.mendeley.com/oapi/documents/search/' + encodeURIComponent(o.title) +
-		'/?consumer_key=e668504e88dc8feacec7078a2db04e6904cbc617e';
+		'/?consumer_key=???';
 	
 	// If there is no cache set in localStorage, or the cache is older than 1 hour:
 	if(!localStorage.cache || now - parseInt(localStorage.time) > 1*60*60)
