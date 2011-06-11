@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<script src="jquery-1.5.2.min.js"></script> <!-- Including jQuery -->
+		<script src="controller.js" type="text/javascript"></script>
+		<script>
+		 window.onload = function() 
+            { 
+                var bg = chrome.extension.getBackgroundPage();
+                bg.getPageInfo(onPageInfo);
+                displayLoader(true);
+            }
+        
+        </script>
+	
+		<link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+	</head>
+    <body>
+        <div id="content">
+		</div>
+		
+      	<div id="loading">
+      		<center>
+      			<img src="mendeleyLogoLoad.png" />
+      			<div id="loader"></div>
+			</center>
+		</div>
+	
+		
+    </body>
+</html>
