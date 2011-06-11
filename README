@@ -1,0 +1,11 @@
+=== Mendeley Related Research ===
+Contributors: Jason Hoyt (Mendeley.com/about-us/)
+Tags: Mendeley, research, recommendations, reference manager, bibliography, Chrome extension
+Version:0.18
+
+Mendeley Related Research Chrome extension finds academic research related to any Web page that you are visiting. Simply click on the blue Mendeley icon
+
+You can also highlight any text on the Web page and then click the blue icon to find related research.
+
+== Installation ==
+Currently not for distribution. Developers will need to enter their API key in the controller.js file.
