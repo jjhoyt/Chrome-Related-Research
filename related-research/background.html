@@ -9,7 +9,7 @@
         callbacks.push(callback); 
 
         // Injects the content script into the current page 
-        chrome.tabs.executeScript(null, { file: "content_script.js" }); 
+        chrome.tabs.executeScript(null, { file: "js/content_script.js" }); 
     }; 
 
     // Perform the callback when a request is received from the content script
@@ -22,4 +22,5 @@
         // Call the callback function
         callback(request); 
     }); 
-</script>
+
+  </script>
