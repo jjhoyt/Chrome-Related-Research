@@ -23,14 +23,4 @@
         callback(request); 
     }); 
 
-    // Context Menu: search menu
-    chrome.contextMenus.create({
-          title: "Search with Mendeley",
-          contexts: ["selection"],
-          onclick: function(info, tab) {
-            console.log(info.selectionText);
-            displayLoader(true);
-          }
-    });
-
   </script>

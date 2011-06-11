@@ -19,5 +19,19 @@
 		"http://*/*", 
         "https://*/*",
         "contextMenus"
-	]
+	],
+
+    "content_scripts": [
+        {
+            "matches":["http://*/*", "https://*/*"],
+            "js": [
+                "js/related-research.js",
+                "js/widget.js",
+                "js/contextmenu.js",
+                "js/background.js"
+            ],
+            "run_at": "document_end",
+            "all_frames": true
+        }
+    ]
 }
