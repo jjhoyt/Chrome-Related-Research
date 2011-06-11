@@ -1,0 +1,37 @@
+{
+	"name": "Chrome Research",
+	"version": "1.0",
+ 
+	"description": "Displays related research.",
+	"background_page": "background.html",
+	"icons": { "20": "images/icon.png" },
+ 
+	"browser_action": {
+		"default_icon": "images/icon.png",
+		"default_title": "Mendeley Related Research",
+		"popup": "popup.html"
+	},
+ 
+	"permissions": [
+		"http://www.mendeley.com/*",
+		"http://api.mendeley.com/*",
+		"tabs",
+		"http://*/*", 
+        "https://*/*",
+        "contextMenus"
+	],
+
+    "content_scripts": [
+        {
+            "matches":["http://*/*", "https://*/*"],
+            "js": [
+                "js/related-research.js",
+                "js/widget.js",
+                "js/context-menu.js",
+                "js/background.js"
+            ],
+            "run_at": "document_end",
+            "all_frames": true
+        }
+    ]
+}
