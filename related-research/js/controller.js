@@ -27,9 +27,9 @@ function onPageInfo(o) {
     var url = o.url;
 
     var CACHE_TIMEOUT = 1*60*60;
-    var CACHED_STATE = localStorage[url+".response.cache"]
+    var CACHE_STATE = localStorage[url+".response.cache"]
 	// If there is no cache set in localStorage, or the cache is older than 1 hour:
-	if(!CACHED_STATE || now - parseInt(localStorage.time) > CACHE_TIMEOUT || o.cache!=0)
+	if(!CACHE_STATE || now - parseInt(localStorage.time) > CACHE_TIMEOUT || o.cache!=0)
 	{
 		$.get(QueryURL,function(msg){
 			
