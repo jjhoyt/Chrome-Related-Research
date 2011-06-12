@@ -1,5 +1,5 @@
 
-var mkey = 'ENTER API KEY';
+var mkey = '03bf6d86faa6f4769942c1b8dfdf90d704df4ff38';
 
 function prepQ() {
 	
@@ -26,7 +26,6 @@ function findUUID(id, type) {
 			"readers": msg.stats.readers,
 			"mURL": msg.mendeley_url
 		};
-		//Details array returns undefined object for some reason to pubMedCheck()
 		return details;
       }
     }).responseText;	    
@@ -47,22 +46,24 @@ function findUUID(id, type) {
 
 }
 
-function findBasedOnUUID(UUID){
+function findBasedOnUUID(UUID, pageURL){
 
-	var QueryURL = 'http://apidocs.mendeley.com/home/public-resources/search-related/' + UUID +
+	var QueryURL = 'http://api.mendeley.com/oapi/documents/related/' + UUID +
 		'/?consumer_key='+mkey+'';
 
 		$.get(QueryURL,function(msg){
-			
+			mendeleyResponse = JSON.stringify(msg);
+			localStorage[url+".response.cache"]	= mendeleyResponse;
+			displayResponse(pageURL);
 		},'json');
 }
 
-function pubMedCheck(txt) {
+function pubMedCheck(pageURL) {
 	//Function just looks at the URL for an obvious PMID. Could expand this function to parse entire html in case PMID is not in URL
 	var re1='(http:\\/\\/www\\.ncbi\\.nlm\\.nih\\.gov\\/pubmed)';	// HTTP URL 1
 
       var p = new RegExp(re1,["i"]);
-      var m = p.exec(txt);
+      var m = p.exec(pageURL);
       if (m != null)
       {
           var httpurl1=m[1];
@@ -73,7 +74,7 @@ function pubMedCheck(txt) {
 		var re2='(\\d+)';	// Integer Number 1
 
 		var p = new RegExp(re1+re2,["i"]);
-		var m = p.exec(txt);
+		var m = p.exec(pageURL);
 		if (m != null)
 		{
 			var id = m[1];
@@ -81,11 +82,8 @@ function pubMedCheck(txt) {
 			var details = findUUID(id, 'pmid');
 
             if(details){
-                findBasedOnUUID(details.uuid);
+                findBasedOnUUID(details.uuid, pageURL);
             }
-			//using document write for debugging. Still shows undefined
-			
-			//functionToFindRelatedResearchBasedOnUUID(details) - Uses this method http://apidocs.mendeley.com/home/public-resources/search-related
 	
 		}
 
@@ -99,8 +97,8 @@ function onPageInfo(o) {
 	var now = (new Date()).getTime()/1000;
 	
 	//Does the page contain a valid PubMed ID? Use this to find related research
-	//Not working atm. Getting undefined, so commenting out
-	var pubmedResults = pubMedCheck(o.url);
+	//comment out the below to turn off if not working yet
+	//pubMedCheck(o.url);
 	
 	//If we have results from pubmed, need to bypass the search Query below with a conditional statement
 	
