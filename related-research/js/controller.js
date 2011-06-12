@@ -55,10 +55,12 @@ function displayResponse(url) {
 
 		search = JSON.parse(JSON.stringify({ search: localStorage[url+".search.cache"]})).search;
 
+		var len = 21;
+		var truncatedText = search.substring(0,len);
 		var items = mendeleyResponse.documents;
 		var htmlString = "";
-		htmlString +='<div style="width:360px"><a href="http://www.mendeley.com/research-papers/" target="_blank"><img src="../images/MlogoFSM.png" height="25px" style="margin-left:-8px"/></a>\
-			<a id="headerLink" href="#">Share</a> <a id="headerLink" href="#">Save</a></div><div style="clear:both"></div>\
+		htmlString +='<div style="width:360px"><a href="http://www.mendeley.com/research-papers/" target="_blank"><img src="MlogoFSM.png" height="25px" style="margin-left:-8px"/></a>\
+			<div style="float:right"><a id="headerLink" href="http://twitter.com/share/?text=Found research on Mendeley about %22'+truncatedText+'...%22 using Mendeley Related Research Chrome extension" class="twitter-share-button" data-url="'+tabURL+'">Tweet</a></div><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div><div style="clear:both"></div>\
 			<div id="header"><form><input id="searchQ" type="text" value="'+search+'" size="45" /> <input id="staticButton" type="submit" value="Search" onclick="prepQ(); return false;"/></form></div>';
 		
 		htmlString +='<div id="clearThisOnNew">';
