@@ -1,4 +1,7 @@
-related-research.widget = {
+MODULE_NAME = "research.widget";
+console.log(MODULE_NAME+" loaded!");
+
+research.widget = {
     init: function() {
 
     },
@@ -9,14 +12,14 @@ related-research.widget = {
 
     //  Initialize widget UI
     createUI: function() {
-          var self = related-research.widget;
+          var self = research.widget;
 
         self.cache.box = $('<div>', {
-            id: 'related-research'
+            id: 'research'
         });
 
         var boxContainer = $('<div>', {
-            id: 'related-research-container'
+            id: 'research-container'
         }).appendTo(document.body);
 
     },

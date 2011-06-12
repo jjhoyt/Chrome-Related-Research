@@ -18,20 +18,24 @@
 		"tabs",
 		"http://*/*", 
         "https://*/*",
+        "tabs",
         "contextMenus"
 	],
 
     "content_scripts": [
         {
             "matches":["http://*/*", "https://*/*"],
-            "js": [
-                "js/related_research.js",
-                "js/widget.js",
-                "js/context_menu.js",
-                "js/background.js"
+
+            "css": [
+                "css/widget.css"
             ],
-            "run_at": "document_end",
-            "all_frames": true
+
+            "js": [
+                "js/research.js",
+                "js/widget.js",
+                "js/contextmenu.js",
+                "js/chrome.js"
+            ]
         }
     ]
 }
