@@ -67,6 +67,13 @@ function onPageInfo(o) {
 	var mendeleyResponse;
 	// Storing the seconds 
 	var now = (new Date()).getTime()/1000;
+	
+	//Does the page contain a valid PubMed ID? Use this to find related research
+	//Not working atm. Getting undefined, so commenting out
+	var pubmedResults = pubMedCheck(o.url);
+	
+	//If we have results from pubmed, need to bypass the search Query below with a conditional statement
+	
 	var search = o.title;
 	// Use highlighted text to perform search instead of page title
 	if(o.highlight!="") {
