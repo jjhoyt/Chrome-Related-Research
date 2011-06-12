@@ -23,33 +23,38 @@ function onPageInfo(o) {
 	}
 	var QueryURL = 'http://api.mendeley.com/oapi/documents/search/' + encodeURIComponent(search) +
 		'/?consumer_key='+mkey+'';
-	
+
+    var url = o.url;
+
+    var CACHE_TIMEOUT = 1*60*60;
+    var CACHED_STATE = localStorage[url+".response.cache"]
 	// If there is no cache set in localStorage, or the cache is older than 1 hour:
-	if(!localStorage.cache || now - parseInt(localStorage.time) > 1*60*60 || o.cache!=0)
+	if(!CACHED_STATE || now - parseInt(localStorage.time) > CACHE_TIMEOUT || o.cache!=0)
 	{
 		$.get(QueryURL,function(msg){
 			
 			// Setting the cache
 			mendeleyResponse = JSON.stringify(msg);
-			//localStorage[\''+url+'\'".cache"]	= mendeleyResponse;
-			localStorage.cache	= mendeleyResponse;
-			localStorage.search	= search;
+			localStorage[url+".response.cache"]	= mendeleyResponse;
+			localStorage[url+".search.cache"]	= search;
 			localStorage.time	= now;
-			displayResponse();
+			displayResponse(url);
 		},'json');
 	}
 	else {
 		// The cache is fresh, use it:
-		displayResponse();
+		displayResponse(url);
 	}
 }
 
-function displayResponse() {
+function displayResponse(url) {
 	
 	$(document).ready(function(){
+             
+		mendeleyResponse = JSON.parse(localStorage[url+".response.cache"]);
 
-		mendeleyResponse = JSON.parse(localStorage.cache);
-		search = localStorage.search;
+		search = JSON.parse(JSON.stringify({ search: localStorage[url+".search.cache"]})).search;
+
 		var items = mendeleyResponse.documents;
 		var htmlString = "";
 		htmlString +='<div style="width:360px"><a href="http://www.mendeley.com/research-papers/" target="_blank"><img src="../images/MlogoFSM.png" height="25px" style="margin-left:-8px"/></a>\
