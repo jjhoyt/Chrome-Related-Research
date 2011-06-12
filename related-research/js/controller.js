@@ -15,8 +15,12 @@ function findUUID(id, type) {
 	//Gets the Mendeley UUID, which is needed to find related research with the related research method. We also grab some details like readership and the mendeley url if the PubMed article is on Mendeley
 	var QueryURL = 'http://api.mendeley.com/oapi/documents/details/' + encodeURIComponent(id) +
 		'/?consumer_key='+mkey+'&type='+type+'';
-	
-	$.get(QueryURL,function(msg){
+
+    var rawDetails = $.ajax({
+      url: QueryURL,
+      dataType: "json",
+      async: false,
+      success: function(msg){
 		var details = {
 			"uuid": msg.uuid,
 			"readers": msg.stats.readers,
@@ -24,9 +28,33 @@ function findUUID(id, type) {
 		};
 		//Details array returns undefined object for some reason to pubMedCheck()
 		return details;
+      }
+    }).responseText;	    
+    
+    if(rawDetails.error){
+        return {};
+    }
+    else {
+        rawDetails = JSON.parse(rawDetails);
 
-	}, 'json');
+        var newDetails = {};
+        newDetails.uuid = rawDetails.uuid;
+        newDetails.readers = rawDetails.stats.readers;
+        newDetails.mURL = rawDetails.mendeley_url;
+        
+        return newDetails;
+    }
 
+}
+
+function findBasedOnUUID(UUID){
+
+	var QueryURL = 'http://apidocs.mendeley.com/home/public-resources/search-related/' + UUID +
+		'/?consumer_key='+mkey+'';
+
+		$.get(QueryURL,function(msg){
+			
+		},'json');
 }
 
 function pubMedCheck(txt) {
@@ -51,9 +79,11 @@ function pubMedCheck(txt) {
 			var id = m[1];
 			//Have PMID, now fetch the Mendeley UUID
 			var details = findUUID(id, 'pmid');
-			
+
+            if(details){
+                findBasedOnUUID(details.uuid);
+            }
 			//using document write for debugging. Still shows undefined
-			document.write(details.uuid);
 			
 			//functionToFindRelatedResearchBasedOnUUID(details) - Uses this method http://apidocs.mendeley.com/home/public-resources/search-related
 	
