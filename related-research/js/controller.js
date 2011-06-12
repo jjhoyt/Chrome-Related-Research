@@ -62,7 +62,7 @@ function displayResponse(url) {
 		htmlString +='<div style="width:360px"><a href="http://www.mendeley.com/research-papers/" target="_blank"><img src="../images/MlogoFSM.png" height="25px" style="margin-left:-8px"/></a>\
 			<div style="float:right"><a id="headerLink" href="http://twitter.com/share/?text=Found research on Mendeley about %22'+truncatedText+'...%22 using Mendeley Related Research Chrome extension" class="twitter-share-button" data-url="'+url+'">Tweet</a></div><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div><div style="clear:both"></div>\
 			<div id="header"><form><input id="searchQ" type="text" value="'+search+'" size="45" /> <input id="staticButton" type="submit" value="Search" onclick="prepQ(); return false;"/></form></div>';
-console.log("Complete!");		
+	
 		htmlString +='<div id="clearThisOnNew">';
 			for(var i=0;i<items.length;i++)
 			{
