@@ -16,10 +16,9 @@
 		"http://www.mendeley.com/*",
 		"http://api.mendeley.com/*",
 		"tabs",
+        "contextMenus",
 		"http://*/*", 
-        "https://*/*",
-        "tabs",
-        "contextMenus"
+        "https://*/*"
 	],
 
     "content_scripts": [
@@ -31,11 +30,14 @@
             ],
 
             "js": [
+                "js/libs/jquery-1.5.2.min.js",
                 "js/research.js",
+                "js/chrome.js",
+                "js/init.js",
                 "js/widget.js",
-                "js/contextmenu.js",
-                "js/chrome.js"
+                "js/contextmenu.js"
             ]
         }
     ]
+
 }
