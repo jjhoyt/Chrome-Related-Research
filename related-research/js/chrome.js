@@ -1,7 +1,7 @@
 /**
   * research.chrome
   *
-  * Methods sending / receving messages from background.html
+  * Methods for sending / receiving messages from background.html
   **/
 
 MODULE_NAME = "chrome";
