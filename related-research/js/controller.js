@@ -1,5 +1,5 @@
 
-var mkey = 'ENTER YOUR API KEY HERE';
+var mkey = 'ENTER API KEY';
 
 function prepQ() {
 	
@@ -9,6 +9,57 @@ function prepQ() {
 	}	
 	displayLoader(true);
 	onPageInfo(preppedQ);
+}
+
+function findUUID(id, type) {
+	//Gets the Mendeley UUID, which is needed to find related research with the related research method. We also grab some details like readership and the mendeley url if the PubMed article is on Mendeley
+	var QueryURL = 'http://api.mendeley.com/oapi/documents/details/' + encodeURIComponent(id) +
+		'/?consumer_key='+mkey+'&type='+type+'';
+	
+	$.get(QueryURL,function(msg){
+		var details = {
+			"uuid": msg.uuid,
+			"readers": msg.stats.readers,
+			"mURL": msg.mendeley_url
+		};
+		//Details array returns undefined object for some reason to pubMedCheck()
+		return details;
+
+	}, 'json');
+
+}
+
+function pubMedCheck(txt) {
+	//Function just looks at the URL for an obvious PMID. Could expand this function to parse entire html in case PMID is not in URL
+	var re1='(http:\\/\\/www\\.ncbi\\.nlm\\.nih\\.gov\\/pubmed)';	// HTTP URL 1
+
+      var p = new RegExp(re1,["i"]);
+      var m = p.exec(txt);
+      if (m != null)
+      {
+          var httpurl1=m[1];
+      }
+      if (httpurl1 !=null)
+      {
+      	var re1='.*?';	// Non-greedy match on filler
+		var re2='(\\d+)';	// Integer Number 1
+
+		var p = new RegExp(re1+re2,["i"]);
+		var m = p.exec(txt);
+		if (m != null)
+		{
+			var id = m[1];
+			//Have PMID, now fetch the Mendeley UUID
+			var details = findUUID(id, 'pmid');
+			
+			//using document write for debugging. Still shows undefined
+			document.write(details.uuid);
+			
+			//functionToFindRelatedResearchBasedOnUUID(details) - Uses this method http://apidocs.mendeley.com/home/public-resources/search-related
+	
+		}
+
+      }
 }
 
 function onPageInfo(o) {
