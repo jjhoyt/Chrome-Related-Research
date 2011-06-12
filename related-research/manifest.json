@@ -16,14 +16,21 @@
 		"http://www.mendeley.com/*",
 		"http://api.mendeley.com/*",
 		"tabs",
+<<<<<<< HEAD
 		"http://*/*", 
         "https://*/*",
         "contextMenus"
+=======
+        "contextMenus",
+		"http://*/*", 
+        "https://*/*"
+>>>>>>> fbdf201349eaebd0f110994af6aed57c78ada391
 	],
 
     "content_scripts": [
         {
             "matches":["http://*/*", "https://*/*"],
+<<<<<<< HEAD
             "js": [
                 "js/related_research.js",
                 "js/widget.js",
@@ -34,4 +41,22 @@
             "all_frames": true
         }
     ]
+=======
+
+            "css": [
+                "css/widget.css"
+            ],
+
+            "js": [
+                "js/libs/jquery-1.5.2.min.js",
+                "js/research.js",
+                "js/chrome.js",
+                "js/init.js",
+                "js/widget.js",
+                "js/contextmenu.js"
+            ]
+        }
+    ]
+
+>>>>>>> fbdf201349eaebd0f110994af6aed57c78ada391
 }

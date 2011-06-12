@@ -109,6 +109,7 @@ body{
 #contentAbstract{
 	margin-top:5px;
 }
+<<<<<<< HEAD:related-research/css/style.css
 
 #research-widget-container{
     position: absolute;
@@ -136,3 +137,5 @@ body{
     -webkit-box-shadow: rgb(204, 204, 204) 0px 0px 5px;
     z-index: 2147483645;
 }
+=======
+>>>>>>> fbdf201349eaebd0f110994af6aed57c78ada391:related-research/css/style.css
