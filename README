@@ -1,5 +1,5 @@
 === Mendeley Related Research ===
-Contributors: Jason Hoyt (Mendeley.com/about-us/)
+Contributors: Jason Hoyt (Mendeley.com/about-us/), Seyi Ogunyemi
 Tags: Mendeley, research, recommendations, reference manager, bibliography, Chrome extension
 Version:0.18
 
@@ -12,7 +12,7 @@ Currently not for distribution. Developers will need to enter their API key in t
 
 == To do ==
 * Improve lookup algorithm- parsing for better keywords
-* DOI/PMID lookup
+* DOI/PMID lookup (started - JH)
 * Saved search
 * Search by right-click
 * Share this (twitter/facebook) - twitter completed
