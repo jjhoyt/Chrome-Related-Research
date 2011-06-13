@@ -159,7 +159,7 @@ function displayResponse(url) {
 				
 				htmlString += '<div id="results">\
 								<div id="title"><a href="'+tut.mendeley_url+'" target="_blank">'+tut.title+'</a></div>\
-								<span id="authors">'+tut.authors+' ('+tut.year+')</span> - <span id="metaLink"><a href="#" onclick="moreLikeThis(\''+tut.uuid+'\',\''+tut.title+'\',\''+tut.mendeley_url+'\'); return false;">More like this</a></span> - <span id="metaLink"><a href="#" onclick="showDeets('+i+',\''+tut.uuid+'\'); return false;">Details</a></span><br/>\
+								<span id="authors">'+tut.authors+' ('+tut.year+')</span> - <span id="metaLink"><a href="#" onclick="moreLikeThis(\''+tut.uuid+'\',\''+tut.title+'\',\''+tut.mendeley_url+'\',\''+url+'\'); return false;">More like this</a></span> - <span id="metaLink"><a href="#" onclick="showDeets('+i+',\''+tut.uuid+'\'); return false;">Details</a></span><br/>\
 								<div id="'+divId+'" style="display:none"></div>\
 								<br/>\
 								</div>';
@@ -205,7 +205,7 @@ function showDeets(i,uuid) {
 	
 }
 
-function moreLikeThis(mUuid,mTitle,mUrl) {
+function moreLikeThis(mUuid,mTitle,mUrl,tabURL) {
 		
 		displayLoader(true);
 		//displayLoader(true);
@@ -216,7 +216,7 @@ function moreLikeThis(mUuid,mTitle,mUrl) {
 
 			var items = msg.documents;
 			var htmlString = "";
-			htmlString +='<FORM><INPUT TYPE="button" id="staticButton" VALUE="Back" onClick="displayResponse();return true;"></FORM></br><div id="header">Similar to <a href="'+mUrl+'" target="_blank">'+mTitle+'</a></div>';
+			htmlString +='<FORM><INPUT TYPE="button" id="staticButton" VALUE="Back" onClick="displayResponse(\''+tabURL+'\');return true;"></FORM></br><div id="header">Similar to <a href="'+mUrl+'" target="_blank">'+mTitle+'</a></div>';
 			htmlString +='<div id="clearThisOnNew">';
 				for(var i=0;i<items.length;i++)
 				{
