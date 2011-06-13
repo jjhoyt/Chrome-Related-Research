@@ -13,33 +13,34 @@ function prepQ() {
 
 function findUUID(id, type) {
 	//Gets the Mendeley UUID, which is needed to find related research with the related research method. We also grab some details like readership and the mendeley url if the PubMed article is on Mendeley
-	var QueryURL = 'http://api.mendeley.com/oapi/documents/details/' + encodeURIComponent(id) +
+	var Query2URL = 'http://api.mendeley.com/oapi/documents/details/' + encodeURIComponent(id) +
 		'/?consumer_key='+mkey+'&type='+type+'';
 
     var rawDetails = $.ajax({
-      url: QueryURL,
+      url: Query2URL,
       dataType: "json",
       async: false,
       success: function(msg){
 		var details = {
 			"uuid": msg.uuid,
 			"readers": msg.stats.readers,
-			"mURL": msg.mendeley_url
+			"mURL": msg.mendeley_url,
+			"title": msg.title
 		};
 		return details;
       }
     }).responseText;	    
-    
+ 	rawDetails = JSON.parse(rawDetails);
+ 	 
     if(rawDetails.error){
-        return {};
+        return;
     }
     else {
-        rawDetails = JSON.parse(rawDetails);
-
         var newDetails = {};
         newDetails.uuid = rawDetails.uuid;
         newDetails.readers = rawDetails.stats.readers;
         newDetails.mURL = rawDetails.mendeley_url;
+        newDetails.title = rawDetails.title;
         
         return newDetails;
     }
@@ -52,8 +53,9 @@ function findBasedOnUUID(UUID, pageURL){
 		'/?consumer_key='+mkey+'';
 
 		$.get(QueryURL,function(msg){
-			mendeleyResponse = JSON.stringify(msg);
-			localStorage[url+".response.cache"]	= mendeleyResponse;
+			// Setting the cache			
+			var mendeleyResponse = JSON.stringify(msg);
+			localStorage[pageURL+".response.cache"]	= mendeleyResponse;
 			displayResponse(pageURL);
 		},'json');
 }
@@ -81,27 +83,19 @@ function pubMedCheck(pageURL) {
 			//Have PMID, now fetch the Mendeley UUID
 			var details = findUUID(id, 'pmid');
 
-            if(details){
-                findBasedOnUUID(details.uuid, pageURL);
+            if(details!= null){    
+                return details;
             }
-	
 		}
-
       }
+      return (false);
 }
 
 function onPageInfo(o) {
 
 	var mendeleyResponse;
 	// Storing the seconds 
-	var now = (new Date()).getTime()/1000;
-	
-	//Does the page contain a valid PubMed ID? Use this to find related research
-	//comment out the below to turn off if not working yet
-	//pubMedCheck(o.url);
-	
-	//If we have results from pubmed, need to bypass the search Query below with a conditional statement
-	
+	var now = (new Date()).getTime()/1000;	
 	var search = o.title;
 	// Use highlighted text to perform search instead of page title
 	if(o.highlight!="") {
@@ -111,21 +105,30 @@ function onPageInfo(o) {
 		'/?consumer_key='+mkey+'';
 
     var url = o.url;
-
     var CACHE_TIMEOUT = 1*60*60;
     var CACHE_STATE = localStorage[url+".response.cache"]
 	// If there is no cache set in localStorage, or the cache is older than 1 hour:
 	if(!CACHE_STATE || now - parseInt(localStorage.time) > CACHE_TIMEOUT || o.cache!=0)
 	{
-		$.get(QueryURL,function(msg){
-			
-			// Setting the cache
-			mendeleyResponse = JSON.stringify(msg);
-			localStorage[url+".response.cache"]	= mendeleyResponse;
-			localStorage[url+".search.cache"]	= search;
+		//Does the page contain a valid PubMed ID? Use this to find related research instead of normal search query
+		var relatedUUID = pubMedCheck(o.url);
+
+		if (relatedUUID!=false) {
+			//this looks up related research based on uuuid and returns it to the displayresponse function
+			localStorage[url+".search.cache"]	= relatedUUID.title;
 			localStorage.time	= now;
-			displayResponse(url);
-		},'json');
+			findBasedOnUUID(relatedUUID.uuid, o.url);			
+		} else {
+			//No UUID - so look up based on page title
+			$.get(QueryURL,function(msg){		
+				// Setting the cache
+				mendeleyResponse = JSON.stringify(msg);
+				localStorage[url+".response.cache"]	= mendeleyResponse;
+				localStorage[url+".search.cache"]	= search;
+				localStorage.time	= now;
+				displayResponse(url);
+			},'json');
+		}
 	}
 	else {
 		// The cache is fresh, use it:
