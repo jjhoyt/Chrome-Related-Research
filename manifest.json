@@ -1,8 +1,8 @@
 {
-	"name": "Chrome Research",
-	"version": "1.0",
+	"name": "Mendeley Related for Chrome - ALPHA",
+	"version": "0.1",
  
-	"description": "Displays related research.",
+	"description": "Displays related research based on current Web page.",
 	"background_page": "background.html",
 	"icons": { "20": "images/icon.png" },
  
