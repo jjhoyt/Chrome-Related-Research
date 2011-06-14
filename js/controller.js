@@ -11,6 +11,36 @@ function prepQ() {
 	onPageInfo(preppedQ);
 }
 
+function parseSearchEngine(url) {
+	//PubMed query check
+	var newSearch = pubmedQuery(url);
+
+	return newSearch;
+	//Google Scholar query check
+	//scholarQuery(url);
+	
+	//arXiv query check
+	//arxivQuery(url);
+	
+	//citeseer query check
+	//citeseerQuery(url);
+
+}
+
+function pubmedQuery(url) {
+	
+      var re1='(http:\\/\\/www\\.ncbi\\.nlm\\.nih\\.gov\\/pubmed\\?term=)';	// HTTP URL 1
+	  var re2='(.*)';	// Query terms
+      var p = new RegExp(re1+re2,["i"]);
+      var m = p.exec(url);
+      if (m != null)
+      {
+          var newSearch=m[2];
+          return newSearch;
+      }
+      return(false);
+}
+
 function findUUID(id, type) {
 	//Gets the Mendeley UUID, which is needed to find related research with the related research method. We also grab some details like readership and the mendeley url if the PubMed article is on Mendeley
 	var Query2URL = 'http://api.mendeley.com/oapi/documents/details/' + encodeURIComponent(id) +
@@ -60,7 +90,7 @@ function findBasedOnUUID(UUID, pageURL){
 		},'json');
 }
 
-function pubMedCheck(pageURL) {
+function pmidCheck(pageURL) {
 	//Function just looks at the URL for an obvious PMID. Could expand this function to parse entire html in case PMID is not in URL
 	var re1='(http:\\/\\/www\\.ncbi\\.nlm\\.nih\\.gov\\/pubmed)';	// HTTP URL 1
 
@@ -101,19 +131,30 @@ function onPageInfo(o) {
 	if(o.highlight!="") {
 		search = o.highlight;
 	}
-	var QueryURL = 'http://api.mendeley.com/oapi/documents/search/' + encodeURIComponent(search) +
-		'/?consumer_key='+mkey+'';
+	//Let's first check if we are on a search engine and can pull out the query terms from the URL
+	newSearch = parseSearchEngine(o.url);
 
+	if (newSearch != false) {
+		newSearch = unescape(newSearch);
+		var QueryURL = 'http://api.mendeley.com/oapi/documents/search/' + encodeURIComponent(newSearch) +
+		'/?consumer_key='+mkey+'';
+		search = newSearch;
+	}
+	else {
+		var QueryURL = 'http://api.mendeley.com/oapi/documents/search/' + encodeURIComponent(search) +
+		'/?consumer_key='+mkey+'';
+	}
+	
     var url = o.url;
-    var CACHE_TIMEOUT = 1*60*60;
+    var CACHE_TIMEOUT = 1*1*1;
     var CACHE_STATE = localStorage[url+".response.cache"]
 	// If there is no cache set in localStorage, or the cache is older than 1 hour:
 	if(!CACHE_STATE || now - parseInt(localStorage.time) > CACHE_TIMEOUT || o.cache!=0)
 	{
 		//Does the page contain a valid PubMed ID? Use this to find related research instead of normal search query
-		var relatedUUID = pubMedCheck(o.url);
+		var relatedUUID = pmidCheck(o.url);
 
-		if (relatedUUID!=false) {
+		if (relatedUUID!=false && newSearch==false) {
 			//this looks up related research based on uuuid and returns it to the displayresponse function
 			localStorage[url+".search.cache"]	= relatedUUID.title;
 			localStorage.time	= now;

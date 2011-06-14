@@ -1,6 +1,6 @@
 {
 	"name": "Mendeley Related for Chrome - ALPHA",
-	"version": "0.1.5",
+	"version": "0.1.6",
  
 	"description": "Displays related research based on current Web page.",
 	"background_page": "background.html",
