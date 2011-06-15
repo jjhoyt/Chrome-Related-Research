@@ -3,6 +3,8 @@
 	padding:0;
 }
 
+*:focus {outline: none;}
+
 body{
 	width:400px;
 	background:#fff;
@@ -23,7 +25,7 @@ body{
 }
 
 #header{
-	margin:0 0 15px 0;
+	margin:0 0 5px 0;
 	width: 360px;
 	font-weight:700
 }
@@ -48,13 +50,42 @@ body{
 	text-decoration:none
 }
 
-#searchQ {
+#search-con {
+	position: relative;
+    height: 26px;
+    width: 330px;
+    border: 1px solid #CACACA;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+#search-con input[type="text"] {
 	font-size:110%;
-	border:1px solid #ccc;
-	border-left:1px solid #999;
-	border-bottom:1px solid #999;
-	padding:2px;
-	color:#444
+	color:#555;
+	width:98%;
+	margin: 3px 0 0 5px;
+	border:#fff 1px solid
+}
+
+#searchButton {
+	border: 1px solid #CACACA;
+    position: relative;
+    cursor: pointer;
+    right: -330px;
+    top: -28px;
+    width: 31px;
+    height: 28px;
+    text-indent:0;
+    overflow: hidden;
+    background: #E9E9E9 url(../images/searchbtn.png) -6px 50% no-repeat;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#searchButton:hover {
+	background: #F2F2F2 url(../images/searchbtn.png) -46px 50% no-repeat;
+    border: 1px solid #939393;
+    text-decoration: none;
+    z-index: 11;
 }
 
 #staticButton {
@@ -64,6 +95,8 @@ body{
 	border-bottom:1px solid #999;
 	padding:2px;
 	background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#eee));
+	border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 #content{
 	width:400px;
@@ -109,33 +142,5 @@ body{
 #contentAbstract{
 	margin-top:5px;
 }
-<<<<<<< HEAD:related-research/css/style.css
 
-#research-widget-container{
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 0px;
-    height: 0px;
-}
 
-#research-widget{
-    background-color: #FDFDFD;
-    border: 1px solid #BBB;
-    border-radius: ;
-    color: #313131;
-    display: none;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    line-height: 12px;
-    margin: 0px;
-    position: fixed;
-    text-align: left;
-    text-transform: none;
-    top: 0%;
-    width: 320px;
-    -webkit-box-shadow: rgb(204, 204, 204) 0px 0px 5px;
-    z-index: 2147483645;
-}
-=======
->>>>>>> fbdf201349eaebd0f110994af6aed57c78ada391:related-research/css/style.css
