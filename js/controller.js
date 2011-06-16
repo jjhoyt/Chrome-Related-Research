@@ -12,33 +12,46 @@ function prepQ() {
 }
 
 function parseSearchEngine(url) {
-	//PubMed query check
-	var newSearch = pubmedQuery(url);
+	//On first pass check if common q is used as query name
+	var q;
+	q = queryValue(url, 'q');
+	if(q!=null) {
+		return q;
+	} else {
+	//Look at domain name and see if we can recognize it
+		var domain;
+		var re1='.*?';	// Non-greedy match on filler
+		var re2='((?:[a-z][a-z\\.\\d\\-]+)\\.(?:[a-z][a-z\\-]+))(?![\\w\\.])';	// Fully Qualified Domain Name 1
+	
+		var p = new RegExp(re1+re2,["i"]);
+		var m = p.exec(url);
+		if (m != null)
+		  {
+		   domain=m[1];
+		  }
+		if(domain=='www.ncbi.nlm.nih.gov') {
+			q = queryValue(url, 'term');
+			return q;
+		}
 
-	return newSearch;
-	//Google Scholar query check
-	//scholarQuery(url);
-	
-	//arXiv query check
-	//arxivQuery(url);
-	
-	//citeseer query check
-	//citeseerQuery(url);
+		else {
+			return(false);
+		}
+	}
 
 }
 
-function pubmedQuery(url) {
-	
-      var re1='(http:\\/\\/www\\.ncbi\\.nlm\\.nih\\.gov\\/pubmed\\?term=)';	// HTTP URL 1
-	  var re2='(.*)';	// Query terms
-      var p = new RegExp(re1+re2,["i"]);
-      var m = p.exec(url);
-      if (m != null)
-      {
-          var newSearch=m[2];
-          return newSearch;
-      }
-      return(false);
+function queryValue(url, name) {
+
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec(url);
+  if( results == null )
+    return;
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+
 }
 
 function findUUID(id, type) {
@@ -133,8 +146,8 @@ function onPageInfo(o) {
 	}
 	//Let's first check if we are on a search engine and can pull out the query terms from the URL
 	newSearch = parseSearchEngine(o.url);
+	if (newSearch != null && newSearch != false) {
 
-	if (newSearch != false) {
 		newSearch = unescape(newSearch);
 		var QueryURL = 'http://api.mendeley.com/oapi/documents/search/' + encodeURIComponent(newSearch) +
 		'/?consumer_key='+mkey+'';
@@ -153,8 +166,7 @@ function onPageInfo(o) {
 	{
 		//Does the page contain a valid PubMed ID? Use this to find related research instead of normal search query
 		var relatedUUID = pmidCheck(o.url);
-
-		if (relatedUUID!=false && newSearch==false) {
+		if (relatedUUID!=false && newSearch==false || relatedUUID.uuid!= null) {
 			//this looks up related research based on uuuid and returns it to the displayresponse function
 			localStorage[url+".search.cache"]	= relatedUUID.title;
 			localStorage.time	= now;
