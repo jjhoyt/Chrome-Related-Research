@@ -135,7 +135,12 @@ function pmidCheck(pageURL) {
 }
 
 function onPageInfo(o) {
-
+	//Check the cache and delete if over six hours
+	var CACHE_TIMEOUT = 6*60*60;
+	if(now - parseInt(localStorage.time) > CACHE_TIMEOUT) {
+		localStorage.clear();
+		localStorage.time	= now;
+	}
 	var mendeleyResponse;
 	// Storing the seconds 
 	var now = (new Date()).getTime()/1000;	
@@ -157,12 +162,11 @@ function onPageInfo(o) {
 		var QueryURL = 'http://api.mendeley.com/oapi/documents/search/' + encodeURIComponent(search) +
 		'/?consumer_key='+mkey+'';
 	}
-	
+		
     var url = o.url;
-    var CACHE_TIMEOUT = 1*60*60;
     var CACHE_STATE = localStorage[url+".response.cache"]
 	// If there is no cache set in localStorage, or the cache is older than 1 hour:
-	if(!CACHE_STATE || now - parseInt(localStorage.time) > CACHE_TIMEOUT || o.cache!=0)
+	if(!CACHE_STATE || o.cache!=0)
 	{
 		//Does the page contain a valid PubMed ID? Use this to find related research instead of normal search query
 		var relatedUUID = pmidCheck(o.url);
@@ -178,7 +182,6 @@ function onPageInfo(o) {
 				mendeleyResponse = JSON.stringify(msg);
 				localStorage[url+".response.cache"]	= mendeleyResponse;
 				localStorage[url+".search.cache"]	= search;
-				localStorage.time	= now;
 				displayResponse(url);
 			},'json');
 		}
