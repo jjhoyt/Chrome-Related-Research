@@ -162,7 +162,7 @@ function onPageInfo(o) {
 		var QueryURL = 'http://api.mendeley.com/oapi/documents/search/' + encodeURIComponent(search) +
 		'/?consumer_key='+mkey+'';
 	}
-		
+
     var url = o.url;
     var CACHE_STATE = localStorage[url+".response.cache"]
 	// If there is no cache set in localStorage, or the cache is older than 1 hour:
@@ -210,15 +210,23 @@ function displayResponse(url) {
 			<div id="header"><form><div id="search-con"><input id="searchQ" type="text" value="'+search+'" size="45" /></div><button title="Search" id="searchButton" type="submit" onclick="prepQ(); return false;"/></button></form></div>';
 	
 		htmlString +='<div id="clearThisOnNew">';
-			for(var i=0;i<items.length;i++)
+			var itemLen = items.length;
+			for(var i=0;i<itemLen;i++)
 			{
 				var divId = "detailDisplay"+i;
 				
 				var tut = items[i];
+				var authLen = tut.authors.length;
+				var authors = tut.authors;
+				var surname ='';
+				for(var j=0;j<authLen;j++) {
+					surname += authors[j].surname;
+					surname += ' ';
+				}
 				
 				htmlString += '<div id="results">\
 								<div id="title"><a href="'+tut.mendeley_url+'" target="_blank">'+tut.title+'</a></div>\
-								<span id="authors">'+tut.authors+' ('+tut.year+')</span> - <span id="metaLink"><a href="#" onclick="moreLikeThis(\''+tut.uuid+'\',\''+tut.title+'\',\''+tut.mendeley_url+'\',\''+url+'\'); return false;">More like this</a></span> - <span id="metaLink"><a href="#" onclick="showDeets('+i+',\''+tut.uuid+'\'); return false;">Details</a></span><br/>\
+								<span id="authors">'+surname+' ('+tut.year+')</span> - <span id="metaLink"><a href="#" onclick="moreLikeThis(\''+tut.uuid+'\',\''+tut.title+'\',\''+tut.mendeley_url+'\',\''+url+'\'); return false;">More like this</a></span> - <span id="metaLink"><a href="#" onclick="showDeets('+i+',\''+tut.uuid+'\'); return false;">Details</a></span><br/>\
 								<div id="'+divId+'" style="display:none"></div>\
 								<br/>\
 								</div>';
